@@ -88,7 +88,140 @@
     </table>
 	</div>
 	<script>
-		// initialize data
+		// the code works with service
+		function getDataCourseFrom(data) {
+			let courses = [];
+			// Go through each element in the data array
+			data.forEach(row => {
+				// Get the values of the necessary columns from the data array
+				const maHP = row["Mã HP"];
+				const gioThi = row["Giờ thi"];
+				const ngayThi = row["Ngày thi"];
+				const phongThi = row["Phòng thi"];
+				const ct1 = row["CT 1"];
+				const ct2 = row["CT 2"];
+
+				// Create a new object with the properties code, date, time, room, proctor1, proctor2 and assign the corresponding values
+				const course = {
+					code: maHP,
+					date: ngayThi,
+					time: gioThi,
+					room: phongThi,
+					proctor1: ct1,
+					proctor2: ct2
+				};
+				// Add the class object to the courses array
+				courses.push(course);
+			});
+			return courses;
+		}
+		// Handle exam scheduling
+		function ArrangeSchedulingWithLecturer(courses, instructors) {
+			// Initialize an empty calendar
+			const schedule = [];
+
+			// Assign instructors to each course
+			courses.forEach(course => {
+				instructors.some(instructor => {
+					if (course.time.split("-").some(time => instructor.availableTimes.toString().includes(time.toString().trim()))) {
+						schedule.push({ course: course.code, proctor1: instructor.name });
+						course.proctor1 = instructor.name;
+						instructors.splice(instructors.indexOf(instructor), 1); // Remove assigned instructor
+						return true;
+					}
+					return false;
+				});
+			});
+			return schedule;
+		}
+		// Handling data entry using excel files
+		function handleFile(input) {
+            const file = input.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+
+                // Get data from the first sheet
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert data to array of objects
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, range: 1, defval: ''});
+                // Display data in the browser
+                displayData(jsonData);
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+		// Handle page reload
+		function reloadPage() {
+            sessionStorage.removeItem('savedContent');
+            location.reload();
+        }
+		function exportToExcel() {
+			/* Get table element */
+			const table = document.getElementById('excel-data');
+			
+			/* Convert table to workbook */
+			const wb = XLSX.utils.table_to_book(table);
+
+			/* Generate Excel file */
+			XLSX.writeFile(wb, 'data.xlsx');
+		}
+		// Format the list to display
+        function formatDataDisplay() {
+			// Get all cells containing an ellipsis
+			var cells = document.querySelectorAll('.container th, .container td');
+			cells.forEach(function(cell) {
+				// Check if the content exceeds max-width
+				if (cell.scrollWidth > cell.offsetWidth) {
+					// Reduce the font size until the content does not exceed max-width
+					while (cell.scrollWidth > cell.offsetWidth) {
+						var fontSize = window.getComputedStyle(cell).fontSize;
+						cell.style.fontSize = (parseFloat(fontSize) - 1) + 'px';
+					}
+				}
+			});
+			console.log('The page has been completely formated.');
+		}
+	</script>
+	
+	<script>
+		// The code works with view
+		// The code displays the list in the browser
+		function displayData(data) {
+            const container = document.getElementById('scheduleBody');
+			let html = "";
+            data.forEach(row => {
+                html += '<tr>';
+                row.forEach(cell => {
+                    html += `<td>${cell}</td>`;
+                });
+                html += '</tr>';
+            });
+			console.log(html);
+			container.innerHTML = html;
+        }
+		
+		// Print exam schedule
+		function printExamSchedule(schedule) {
+			schedule.forEach(entry => {
+				console.log(`Course ${entry.course} will be lecturers ${entry.proctor1} monitor the exam.`);
+			});
+		}
+		
+		function printSchedule() {
+            // Open the browser print dialog box
+            window.print();
+        }
+	</script>
+		
+	<script>
+		// debugger
+		// Code that works with controller
+		// Initialize data
 		const data = [
 			{
 				"TT": 1,
@@ -191,33 +324,15 @@
 				"Khóa": 12
 			}
 		];
-		 const scheduleBody = document.getElementById('scheduleBody');
-
-        // Create and populate tables with data
-        data.forEach(row => {
-            const tr = document.createElement('tr');
-            for (const key in row) {
-                const td = document.createElement('td');
-                td.textContent = row[key];
-                tr.appendChild(td);
-            }
-            scheduleBody.appendChild(tr);
-        });
-	</script>
-	<script>
-		//debugger
-		// create an exam schedule based on information about the courses
-		// Sample data about courses and instructors
+		debugger
+		// Display the list in the browser
+		displayData(data);
 		
-		const courses = [
-			{ code: "CSE101", date: "2023-01-10", time: "09:00-11:00", room: "A101", proctor1: "", proctor2: ""},
-			{ code: "MATH201", date: "2023-01-10", time: "14:00-16:00", room: "B201", proctor1: "", proctor2: ""},
-			{ code: "ENG301", date: "2023-01-11", time: "13:00-15:00", room: "C301", proctor1: "", proctor2: ""},
-			{ code: "PHYS401", date: "2023-01-11", time: "10:00-12:00", room: "D401", proctor1: "", proctor2: ""},
-			{ code: "CHEM501", date: "2023-01-12", time: "11:00-13:00", room: "E501", proctor1: "", proctor2: ""},
-			{ code: "BIO601", date: "2023-01-12", time: "16:00-18:00", room: "F601", proctor1: "", proctor2: ""}
-		];
+		// Get courses data from data
+		const courses = getDataCourseFrom(data);
+		console.log(courses);
 
+		// initialize instructors
 		const instructors = [
 			{ name: "Dr. Smith", availableTimes: ["09:00-11:00", "14:00-16:00"] },
 			{ name: "Prof. Johnson", availableTimes: ["09:00-11:00", "14:00-16:00"] },
@@ -226,119 +341,17 @@
 			{ name: "Dr. Garcia", availableTimes: ["11:00-13:00", "16:00-18:00"] },
 			{ name: "Prof. Lee", availableTimes: ["08:00-10:00", "14:00-16:00"] }
 		];
-
-
-
-		// Initialize an empty calendar
-		const schedule = [];
-
-		// Assign instructors to each course
-		// instructors[0].availableTimes vs courses[0].time vs courses[1].time: 
-		// instructors[1].availableTimes vs courses[0].time vs courses[1].time
-		courses.forEach(course => {
-			instructors.some(instructor => {
-				if (course.time.split("-").some(time => instructor.availableTimes.toString().includes(time))) {
-					schedule.push({ course: course.code, proctor1: instructor.name });
-					course.proctor1 = instructor.name;
-					instructors.splice(instructors.indexOf(instructor), 1); // Remove assigned instructor
-					return true;
-				}
-				return false;
-			});
-		});
 		
-		// gan du lieu cho proctor
-
-		// Print exam schedule
-		schedule.forEach(entry => {
-			console.log(`Khóa học ${entry.course} sẽ được giảng viên ${entry.proctor1} coi thi.`);
-		});
-		console.log(courses);
-	</script>
-	<script>
-		function exportToExcel() {
-			/* Get table element */
-			var table = document.getElementById('excel-data');
-			
-			/* Convert table to workbook */
-			var wb = XLSX.utils.table_to_book(table);
-
-			/* Generate Excel file */
-			XLSX.writeFile(wb, 'data.xlsx');
-		}
-	</script>
-	<script>
-        function handleFile(input) {
-            const file = input.files[0];
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-
-                // Get data from the first sheet
-                const firstSheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert data to array of objects
-                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, range: 1, defval: ''});
-                // Display data in the browser
-                displayData(jsonData);
-            };
-
-            reader.readAsArrayBuffer(file);
-        }
-
-        function displayData(data) {
-            const container = document.getElementById('scheduleBody');
-			let html = "";
-            data.forEach(row => {
-                html += '<tr>';
-                row.forEach(cell => {
-                    html += `<td>${cell}</td>`;
-                });
-                html += '</tr>';
-            });
-			console.log(html);
-			container.innerHTML = html;
-        }
+		// Arrange exam schedule with lecturer
+		const schedule = ArrangeSchedulingWithLecturer(courses, instructors);
+		console.log(schedule);
 		
-		function reloadPage() {
-            sessionStorage.removeItem('savedContent');
-            location.reload();
-        }
-    </script>
-	<script>
-        function printSchedule() {
-            // Open the browser print dialog box
-            window.print();
-        }
-    </script>
-	<script>
-		/* viet formmat danh sach bang */
-        function formatDataDisplay() {
-			// Get all cells containing an ellipsis
-			var cells = document.querySelectorAll('.container th, .container td');
-			cells.forEach(function(cell) {
-				// Check if the content exceeds max-width
-				if (cell.scrollWidth > cell.offsetWidth) {
-					// Reduce the font size until the content does not exceed max-width
-					while (cell.scrollWidth > cell.offsetWidth) {
-						var fontSize = window.getComputedStyle(cell).fontSize;
-						cell.style.fontSize = (parseFloat(fontSize) - 1) + 'px';
-					}
-				}
-			});
-		}
-    </script>
-	<script>
-        document.addEventListener('DOMContentLoaded', function() {
+		document.addEventListener('DOMContentLoaded', function() {
 			formatDataDisplay();
-			console.log('The page has been completely formated.');
             // Perform actions after the page is completely loaded
             console.log('The page has been completely loaded.');
         });
-    </script>
-	
+		
+	</script>	
 </body>
 </html>

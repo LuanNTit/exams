@@ -1,10 +1,11 @@
 <script>
-const array = ["09:00-11:00", "14:00-16:00"];
-const elementToCheck = "09:00";
+// Chuỗi ban đầu
+const chuoi = "   Xin chào, tôi là Microsoft Copilot!   ";
 
-if ("09:00-11:00".includes(elementToCheck)) {
-    console.log("Mảng chứa phần tử cần kiểm tra.");
-} else {
-    console.log("Mảng không chứa phần tử cần kiểm tra.");
-}
+// Sử dụng hàm trim() để loại bỏ khoảng trắng ở đầu và cuối chuỗi
+const chuoiDaTrim = chuoi.trim();
+
+// In kết quả
+console.log(`Chuỗi sau khi trim: '${chuoiDaTrim}'`);
+
 </script>
