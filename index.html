@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch thi</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+    <style>
+		/* CSS cho trang khi in */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .container, .container * {
+                visibility: visible;
+            }
+            .container {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+		.container {
+			max-width: 1300px;
+			margin-left: auto;
+			margin-right: auto;
+			font-size: 13px;
+		}
+		/* gioi han chieu rong */
+        .container table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+		.container th, .container td {
+            white-space: nowrap; /* Ngăn chữ trong ô xuống dòng */
+            max-width: 70px; /* Giới hạn chiều rộng của ô */
+			
+        }
+		
+
+    </style>
+</head>
+<body>
+	<input type="file" id="excel-file" accept=".xlsx, .xls" onchange="handleFile(this)">
+    <h2>Lịch thi</h2>
+	<button onclick="reloadPage()">Reload</button>
+	<button onclick="printSchedule()">In lịch thi</button>
+	<button onclick="exportToExcel()">Save to Excel</button>
+	<button onclick="formatDataDisplay()">Format Data Display</button>
+	<div class="container">
+    <table id="excel-data">
+        <tr>
+            <th>TT</th>
+            <th>Lớp HP</th>
+            <th>Mã HP</th>
+            <th>Tên học phần</th>
+            <th>Số TC</th>
+            <th>SL</th>
+            <th>HT Thi</th>
+            <th>Buổi</th>
+            <th>Giờ thi</th>
+            <th>Ngày thi</th>
+            <th>Phòng thi</th>
+            <th>GV chấm thi 1</th>
+            <th>GV chấm thi 2</th>
+            <th>CT 1</th>
+            <th>CT 2</th>
+            <th>Thứ</th>
+            <th>Lớp</th>
+            <th>Khóa</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>ABC123</td>
+            <td>CSE101</td>
+            <td>Lập trình cơ bản klkkdklkdkdk</td>
+            <td>3</td>
+            <td>50</td>
+            <td>Thi viết jkjjkjjj</td>
+            <td>Sáng</td>
+            <td>8:00 - 10:00</td>
+            <td>25/04/2024</td>
+            <td>Phòng A101</td>
+            <td>Nguyễn Văn A kklkdkldkkdkdlkkdl</td>
+            <td>Trần Thị B kjkjdkdklkldklkldkldkldk</td>
+            <td>Bài tập</td>
+            <td>Trắc nghiệm</td>
+            <td>Thứ Hai</td>
+            <td>12C1 kjdkskjjskdkjkjdkjdkj iioiiioioiihhhh</td>
+            <td>12</td>
+        </tr>
+        <tr>
+			<td>2</td>
+			<td>DEF456</td>
+			<td>MTH202</td>
+			<td>Toán cao cấp kkdkdklklsksllkskfkjfjflkjdlkl</td>
+			<td>4</td>
+			<td>40</td>
+			<td>Thi trắc nghiệm</td>
+			<td>Chiều</td>
+			<td>14:00 - 16:00</td>
+			<td>26/04/2024</td>
+			<td>Phòng B202</td>
+			<td>Phạm Thị Ckeieibfb kldlka;;ldkdkdkk</td>
+			<td>Nguyễn Văn D kldlkkdkdklkdlkld</td>
+			<td>Đồ án</td>
+			<td>Bài tập kdiudiueibebfb b</td>
+			<td>Thứ Ba</td>
+			<td>12C2</td>
+			<td>12</td>
+		</tr>
+		<tr>
+			<td>3</td>
+			<td>GHI789</td>
+			<td>ENG101</td>
+			<td>Tiếng Anh cơ bản</td>
+			<td>2</td>
+			<td>30</td>
+			<td>Thi lý thuyết</td>
+			<td>Sáng</td>
+			<td>9:00 - 11:00</td>
+			<td>27/04/2024</td>
+			<td>Phòng C303</td>
+			<td>Lê Thị E</td>
+			<td>Trần Văn F</td>
+			<td>Thực hành</td>
+			<td>Bài kiểm tra</td>
+			<td>Thứ Tư</td>
+			<td>12C3</td>
+			<td>12</td>
+		</tr>
+		<tr>
+			<td>4</td>
+			<td>XYZ789</td>
+			<td>PHY303</td>
+			<td>Vật lý cơ bản</td>
+			<td>3</td>
+			<td>45</td>
+			<td>Thi thực hành</td>
+			<td>Chiều</td>
+			<td>13:00 - 15:00</td>
+			<td>28/04/2024</td>
+			<td>Phòng D404</td>
+			<td>Hoàng Văn G</td>
+			<td>Nguyễn Thị H</td>
+			<td>Bài tập lớn</td>
+			<td>Thi trắc nghiệm</td>
+			<td>Thứ Năm</td>
+			<td>12C4</td>
+			<td>12</td>
+		</tr>
+		<tr>
+			<td>5</td>
+			<td>JKL321</td>
+			<td>BIO202</td>
+			<td>Sinh học cơ bản</td>
+			<td>3</td>
+			<td>40</td>
+			<td>Thi thực hành</td>
+			<td>Sáng</td>
+			<td>10:00 - 12:00</td>
+			<td>29/04/2024</td>
+			<td>Phòng E505</td>
+			<td>Trần Văn I</td>
+			<td>Lê Thị K</td>
+			<td>Thi lý thuyết</td>
+			<td>Bài tập</td>
+			<td>Thứ Sáu</td>
+			<td>12C5</td>
+			<td>12</td>
+		</tr>
+    </table>
+	</div>
+	<script>
+		
+		
+	</script>
+	<script>
+		function exportToExcel() {
+			/* Get table element */
+			var table = document.getElementById('excel-data');
+			
+			/* Convert table to workbook */
+			var wb = XLSX.utils.table_to_book(table);
+
+			/* Generate Excel file */
+			XLSX.writeFile(wb, 'data.xlsx');
+		}
+	</script>
+	<script>
+        function handleFile(input) {
+			debugger
+            const file = input.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+
+                // Get data from the first sheet
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert data to array of objects
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 , range: 1});
+                // Display data in the browser
+                displayData(jsonData);
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+
+        function displayData(data) {
+			debugger
+            const container = document.getElementById('excel-data');
+			let html = "";
+            data.forEach(row => {
+                html += '<tr>';
+                row.forEach(cell => {
+                    html += `<td>${cell}</td>`;
+                });
+                html += '</tr>';
+            });
+			const savedContent = sessionStorage.getItem('savedContent');
+            if (savedContent) {
+                container.innerHTML = savedContent;
+            } else {
+				console.log(html);
+				container.innerHTML += html;
+				sessionStorage.setItem('savedContent', container.innerHTML);
+			}
+        }
+		
+		function reloadPage() {
+            sessionStorage.removeItem('savedContent');
+            location.reload();
+        }
+    </script>
+	<script>
+        function printSchedule() {
+            // Open the browser print dialog box
+            window.print();
+        }
+    </script>
+	<script>
+		/* viet formmat danh sach bang */
+        function formatDataDisplay() {
+			// Get all cells containing an ellipsis
+			var cells = document.querySelectorAll('.container th, .container td');
+			cells.forEach(function(cell) {
+				// Check if the content exceeds max-width
+				if (cell.scrollWidth > cell.offsetWidth) {
+					// Reduce the font size until the content does not exceed max-width
+					while (cell.scrollWidth > cell.offsetWidth) {
+						var fontSize = window.getComputedStyle(cell).fontSize;
+						cell.style.fontSize = (parseFloat(fontSize) - 1) + 'px';
+					}
+				}
+			});
+		}
+    </script>
+	<script>
+        document.addEventListener('DOMContentLoaded', function() {
+			formatDataDisplay();
+			console.log('The page has been completely formated.');
+            // Perform actions after the page is completely loaded
+            console.log('The page has been completely loaded.');
+        });
+    </script>
+	
+</body>
+</html>
