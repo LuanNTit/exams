@@ -24,7 +24,7 @@
 			max-width: 1300px;
 			margin-left: auto;
 			margin-right: auto;
-			font-size: 13px;
+			font-size: 14px;
 		}
 		/* gioi han chieu rong */
         .container table {
@@ -44,144 +44,217 @@
             max-width: 70px; /* Giới hạn chiều rộng của ô */
 			
         }
-		
+		.action {
+			color: red;
+		}
 
     </style>
 </head>
 <body>
 	<input type="file" id="excel-file" accept=".xlsx, .xls" onchange="handleFile(this)">
-    <h2>Lịch thi</h2>
-	<button onclick="reloadPage()">Reload</button>
-	<button onclick="printSchedule()">In lịch thi</button>
+    <h1>Semester exam schedule</h1>
+	<h2>Action: <span class="action">scheduling</span></h2>
+	<button onclick="reloadPage()">View exam schedule</button>
+	<button onclick="reloadPage()">scheduling</button>
+	<button onclick="printSchedule()">Print exam schedule</button>
 	<button onclick="exportToExcel()">Save to Excel</button>
 	<button onclick="formatDataDisplay()">Format Data Display</button>
+	<button onclick="reloadPage()">Reload</button>
 	<div class="container">
     <table id="excel-data">
-        <tr>
-            <th>TT</th>
-            <th>Lớp HP</th>
-            <th>Mã HP</th>
-            <th>Tên học phần</th>
-            <th>Số TC</th>
-            <th>SL</th>
-            <th>HT Thi</th>
-            <th>Buổi</th>
-            <th>Giờ thi</th>
-            <th>Ngày thi</th>
-            <th>Phòng thi</th>
-            <th>GV chấm thi 1</th>
-            <th>GV chấm thi 2</th>
-            <th>CT 1</th>
-            <th>CT 2</th>
-            <th>Thứ</th>
-            <th>Lớp</th>
-            <th>Khóa</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>ABC123</td>
-            <td>CSE101</td>
-            <td>Lập trình cơ bản klkkdklkdkdk</td>
-            <td>3</td>
-            <td>50</td>
-            <td>Thi viết jkjjkjjj</td>
-            <td>Sáng</td>
-            <td>8:00 - 10:00</td>
-            <td>25/04/2024</td>
-            <td>Phòng A101</td>
-            <td>Nguyễn Văn A kklkdkldkkdkdlkkdl</td>
-            <td>Trần Thị B kjkjdkdklkldklkldkldkldk</td>
-            <td>Bài tập</td>
-            <td>Trắc nghiệm</td>
-            <td>Thứ Hai</td>
-            <td>12C1 kjdkskjjskdkjkjdkjdkj iioiiioioiihhhh</td>
-            <td>12</td>
-        </tr>
-        <tr>
-			<td>2</td>
-			<td>DEF456</td>
-			<td>MTH202</td>
-			<td>Toán cao cấp kkdkdklklsksllkskfkjfjflkjdlkl</td>
-			<td>4</td>
-			<td>40</td>
-			<td>Thi trắc nghiệm</td>
-			<td>Chiều</td>
-			<td>14:00 - 16:00</td>
-			<td>26/04/2024</td>
-			<td>Phòng B202</td>
-			<td>Phạm Thị Ckeieibfb kldlka;;ldkdkdkk</td>
-			<td>Nguyễn Văn D kldlkkdkdklkdlkld</td>
-			<td>Đồ án</td>
-			<td>Bài tập kdiudiueibebfb b</td>
-			<td>Thứ Ba</td>
-			<td>12C2</td>
-			<td>12</td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td>GHI789</td>
-			<td>ENG101</td>
-			<td>Tiếng Anh cơ bản</td>
-			<td>2</td>
-			<td>30</td>
-			<td>Thi lý thuyết</td>
-			<td>Sáng</td>
-			<td>9:00 - 11:00</td>
-			<td>27/04/2024</td>
-			<td>Phòng C303</td>
-			<td>Lê Thị E</td>
-			<td>Trần Văn F</td>
-			<td>Thực hành</td>
-			<td>Bài kiểm tra</td>
-			<td>Thứ Tư</td>
-			<td>12C3</td>
-			<td>12</td>
-		</tr>
-		<tr>
-			<td>4</td>
-			<td>XYZ789</td>
-			<td>PHY303</td>
-			<td>Vật lý cơ bản</td>
-			<td>3</td>
-			<td>45</td>
-			<td>Thi thực hành</td>
-			<td>Chiều</td>
-			<td>13:00 - 15:00</td>
-			<td>28/04/2024</td>
-			<td>Phòng D404</td>
-			<td>Hoàng Văn G</td>
-			<td>Nguyễn Thị H</td>
-			<td>Bài tập lớn</td>
-			<td>Thi trắc nghiệm</td>
-			<td>Thứ Năm</td>
-			<td>12C4</td>
-			<td>12</td>
-		</tr>
-		<tr>
-			<td>5</td>
-			<td>JKL321</td>
-			<td>BIO202</td>
-			<td>Sinh học cơ bản</td>
-			<td>3</td>
-			<td>40</td>
-			<td>Thi thực hành</td>
-			<td>Sáng</td>
-			<td>10:00 - 12:00</td>
-			<td>29/04/2024</td>
-			<td>Phòng E505</td>
-			<td>Trần Văn I</td>
-			<td>Lê Thị K</td>
-			<td>Thi lý thuyết</td>
-			<td>Bài tập</td>
-			<td>Thứ Sáu</td>
-			<td>12C5</td>
-			<td>12</td>
-		</tr>
+		<thead>
+			<tr>
+				<th>TT</th>
+				<th>Lớp HP</th>
+				<th>Mã HP</th>
+				<th>Tên học phần</th>
+				<th>Số TC</th>
+				<th>SL</th>
+				<th>HT Thi</th>
+				<th>Buổi</th>
+				<th>Giờ thi</th>
+				<th>Ngày thi</th>
+				<th>Phòng thi</th>
+				<th>GV chấm thi 1</th>
+				<th>GV chấm thi 2</th>
+				<th>CT 1</th>
+				<th>CT 2</th>
+				<th>Thứ</th>
+				<th>Lớp</th>
+				<th>Khóa</th>
+			</tr>
+		</thead>
+		<tbody id="scheduleBody">
+		</tbody>
     </table>
 	</div>
 	<script>
+		// initialize data
+		const data = [
+			{
+				"TT": 1,
+				"Lớp HP": "ABC123",
+				"Mã HP": "CSE101",
+				"Tên học phần": "Lập trình cơ bản",
+				"Số TC": 3,
+				"SL": 50,
+				"HT Thi": "Thi viết",
+				"Buổi": "Sáng",
+				"Giờ thi": "8:00 - 10:00",
+				"Ngày thi": "25/04/2024",
+				"Phòng thi": "Phòng A101",
+				"GV chấm thi 1": "Nguyễn Văn A",
+				"GV chấm thi 2": "Nguyễn Văn B",
+				"CT 1": "",
+				"CT 2": "",
+				"Thứ": 2,
+				"Lớp": "12C1",
+				"Khóa": 12
+			},
+			{
+				"TT": 2,
+				"Lớp HP": "DEF456",
+				"Mã HP": "MTH202",
+				"Tên học phần": "Toán cao cấp",
+				"Số TC": 4,
+				"SL": 40,
+				"HT Thi": "Thi trắc nghiệm",
+				"Buổi": "Chiều",
+				"Giờ thi": "14:00 - 16:00",
+				"Ngày thi": "26/04/2024",
+				"Phòng thi": "Phòng B202",
+				"GV chấm thi 1": "Phạm Thị C",
+				"GV chấm thi 2": "Nguyễn Văn D",
+				"CT 1": "",
+				"CT 2": "",
+				"Thứ": 3,
+				"Lớp": "12C2",
+				"Khóa": 12
+			},
+			{
+				"TT": 3,
+				"Lớp HP": "GHI789",
+				"Mã HP": "ENG101",
+				"Tên học phần": "Tiếng Anh cơ bản",
+				"Số TC": 2,
+				"SL": 30,
+				"HT Thi": "Thi lý thuyết",
+				"Buổi": "Sáng",
+				"Giờ thi": "9:00 - 11:00",
+				"Ngày thi": "27/04/2024",
+				"Phòng thi": "Phòng C303",
+				"GV chấm thi 1": "Lê Thị E",
+				"GV chấm thi 2": "Trần Văn F",
+				"CT 1": "",
+				"CT 2": "",
+				"Thứ": 4,
+				"Lớp": "12C3",
+				"Khóa": 12
+			},
+			{
+				"TT": 4,
+				"Lớp HP": "XYZ789",
+				"Mã HP": "PHY303",
+				"Tên học phần": "Vật lý cơ bản",
+				"Số TC": 3,
+				"SL": 45,
+				"HT Thi": "Thi thực hành",
+				"Buổi": "Chiều",
+				"Giờ thi": "13:00 - 15:00",
+				"Ngày thi": "28/04/2024",
+				"Phòng thi": "Phòng D404",
+				"GV chấm thi 1": "Hoàng Văn G",
+				"GV chấm thi 2": "Nguyễn Thị H",
+				"CT 1": "",
+				"CT 2": "",
+				"Thứ": 5,
+				"Lớp": "12C4",
+				"Khóa": 12
+			},
+			{
+				"TT": 5,
+				"Lớp HP": "JKL321",
+				"Mã HP": "BIO202",
+				"Tên học phần": "Sinh học cơ bản",
+				"Số TC": 3,
+				"SL": 40,
+				"HT Thi": "Thi thực hành",
+				"Buổi": "Sáng",
+				"Giờ thi": "10:00 - 12:00",
+				"Ngày thi": "29/04/2024",
+				"Phòng thi": "Phòng E505",
+				"GV chấm thi 1": "Trần Văn I",
+				"GV chấm thi 2": "Lê Thị K",
+				"CT 1": "",
+				"CT 2": "",
+				"Thứ": 6,
+				"Lớp": "12C5",
+				"Khóa": 12
+			}
+		];
+		 const scheduleBody = document.getElementById('scheduleBody');
+
+        // Create and populate tables with data
+        data.forEach(row => {
+            const tr = document.createElement('tr');
+            for (const key in row) {
+                const td = document.createElement('td');
+                td.textContent = row[key];
+                tr.appendChild(td);
+            }
+            scheduleBody.appendChild(tr);
+        });
+	</script>
+	<script>
+		//debugger
+		// create an exam schedule based on information about the courses
+		// Sample data about courses and instructors
 		
+		const courses = [
+			{ code: "CSE101", date: "2023-01-10", time: "09:00-11:00", room: "A101", proctor1: "", proctor2: ""},
+			{ code: "MATH201", date: "2023-01-10", time: "14:00-16:00", room: "B201", proctor1: "", proctor2: ""},
+			{ code: "ENG301", date: "2023-01-11", time: "13:00-15:00", room: "C301", proctor1: "", proctor2: ""},
+			{ code: "PHYS401", date: "2023-01-11", time: "10:00-12:00", room: "D401", proctor1: "", proctor2: ""},
+			{ code: "CHEM501", date: "2023-01-12", time: "11:00-13:00", room: "E501", proctor1: "", proctor2: ""},
+			{ code: "BIO601", date: "2023-01-12", time: "16:00-18:00", room: "F601", proctor1: "", proctor2: ""}
+		];
+
+		const instructors = [
+			{ name: "Dr. Smith", availableTimes: ["09:00-11:00", "14:00-16:00"] },
+			{ name: "Prof. Johnson", availableTimes: ["09:00-11:00", "14:00-16:00"] },
+			{ name: "Dr. Anderson", availableTimes: ["10:00-12:00", "13:00-15:00"] },
+			{ name: "Prof. Martinez", availableTimes: ["08:00-10:00", "12:00-14:00"] },
+			{ name: "Dr. Garcia", availableTimes: ["11:00-13:00", "16:00-18:00"] },
+			{ name: "Prof. Lee", availableTimes: ["08:00-10:00", "14:00-16:00"] }
+		];
+
+
+
+		// Initialize an empty calendar
+		const schedule = [];
+
+		// Assign instructors to each course
+		// instructors[0].availableTimes vs courses[0].time vs courses[1].time: 
+		// instructors[1].availableTimes vs courses[0].time vs courses[1].time
+		courses.forEach(course => {
+			instructors.some(instructor => {
+				if (course.time.split("-").some(time => instructor.availableTimes.toString().includes(time))) {
+					schedule.push({ course: course.code, proctor1: instructor.name });
+					course.proctor1 = instructor.name;
+					instructors.splice(instructors.indexOf(instructor), 1); // Remove assigned instructor
+					return true;
+				}
+				return false;
+			});
+		});
 		
+		// gan du lieu cho proctor
+
+		// Print exam schedule
+		schedule.forEach(entry => {
+			console.log(`Khóa học ${entry.course} sẽ được giảng viên ${entry.proctor1} coi thi.`);
+		});
+		console.log(courses);
 	</script>
 	<script>
 		function exportToExcel() {
@@ -197,7 +270,6 @@
 	</script>
 	<script>
         function handleFile(input) {
-			debugger
             const file = input.files[0];
             const reader = new FileReader();
 
@@ -210,7 +282,7 @@
                 const worksheet = workbook.Sheets[firstSheetName];
 
                 // Convert data to array of objects
-                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 , range: 1});
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, range: 1, defval: ''});
                 // Display data in the browser
                 displayData(jsonData);
             };
@@ -219,8 +291,7 @@
         }
 
         function displayData(data) {
-			debugger
-            const container = document.getElementById('excel-data');
+            const container = document.getElementById('scheduleBody');
 			let html = "";
             data.forEach(row => {
                 html += '<tr>';
@@ -229,14 +300,8 @@
                 });
                 html += '</tr>';
             });
-			const savedContent = sessionStorage.getItem('savedContent');
-            if (savedContent) {
-                container.innerHTML = savedContent;
-            } else {
-				console.log(html);
-				container.innerHTML += html;
-				sessionStorage.setItem('savedContent', container.innerHTML);
-			}
+			console.log(html);
+			container.innerHTML = html;
         }
 		
 		function reloadPage() {
