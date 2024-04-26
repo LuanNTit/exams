@@ -55,10 +55,10 @@
     <h1>Semester exam schedule</h1>
 	<h2>Action: <span class="action">scheduling</span></h2>
 	<button onclick="reloadPage()">scheduling</button>
-	<button onclick="printSchedule()">Print exam schedule</button>
-	<button onclick="exportToExcel()">Save to Excel</button>
-	<button onclick="formatDataDisplay()">Format Data Display</button>
-	<button onclick="reloadPage()">Reload</button>
+	<button onclick="handlePrintSchedule()">Print exam schedule</button>
+	<button onclick="handleExportToExcel()">Export to Excel</button>
+	<button onclick="handleFormatDataDisplay()">Format Data Display</button>
+	<button onclick="handleReloadPage()">Reload</button>
 	<div class="container">
     <table id="excel-data">
 		<thead>
@@ -87,11 +87,6 @@
 		</tbody>
     </table>
 	</div>
-	
-	<!-- Commonly used consts -->
-	<script>
-		
-	</script>
 	<!-- The code works with model -->
 	<script>
 		// Model element
@@ -102,154 +97,14 @@
 		function setElementID(elementID) {
 			elementID = element;
 		}
-	</script>
-	
-	<!-- The code works with service -->
-	<script>
-		function getDataCourseFrom(data) {
-			let courses = [];
-			// Go through each element in the data array
-			data.forEach(row => {
-				// Get the values of the necessary columns from the data array
-				const maHP = row["Mã HP"];
-				const gioThi = row["Giờ thi"];
-				const ngayThi = row["Ngày thi"];
-				const phongThi = row["Phòng thi"];
-				const ct1 = row["CT 1"];
-				const ct2 = row["CT 2"];
-
-				// Create a new object with the properties code, date, time, room, proctor1, proctor2 and assign the corresponding values
-				const course = {
-					code: maHP,
-					date: ngayThi,
-					time: gioThi,
-					room: phongThi,
-					proctor1: ct1,
-					proctor2: ct2
-				};
-				// Add the class object to the courses array
-				courses.push(course);
-			});
-			return courses;
-		}
-		// Handle exam scheduling
-		function ArrangeSchedulingWithLecturer(courses, instructors) {
-			// Initialize an empty calendar
-			const schedule = [];
-
-			// Assign instructors to each course
-			courses.forEach(course => {
-				instructors.some(instructor => {
-					if (course.time.split("-").some(time => instructor.availableTimes.toString().includes(time.toString().trim()))) {
-						schedule.push({ course: course.code, proctor1: instructor.name });
-						course.proctor1 = instructor.name;
-						instructors.splice(instructors.indexOf(instructor), 1); // Remove assigned instructor
-						return true;
-					}
-					return false;
-				});
-			});
-			return schedule;
-		}
 		// remove content in element
-		function removeContent(element) {
-			element.innerHTML = ''; // remove all content in the element
+		function removeContent() {
+			getElementDisplayByElementID().innerHTML = ''; // remove all content in the element
 		}
 		
-		// Read excel files
-		function readFileExcel(input) {
-			debugger
-            const file = input.files[0];
-            const reader = new FileReader();
-			
-			return new Promise((resolve, reject) => {
-				reader.onload = function(e) {
-					const data = new Uint8Array(e.target.result);
-					const workbook = XLSX.read(data, { type: 'array' });
-
-					// Get data from the first sheet
-					const firstSheetName = workbook.SheetNames[0];
-					const worksheet = workbook.Sheets[firstSheetName];
-
-					// Convert data to array of objects
-					const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, range: 1, defval: ''});
-					// Display data in the browser
-					resolve(jsonData);
-				};
-				reader.onerror = function(error) {
-					reject(`Error reading file: ${error}`);
-				};
-
-				reader.readAsArrayBuffer(file);
-			});
-        }
-		// Handle page reload
-		function reloadPage() {
-            sessionStorage.removeItem('savedContent');
-            location.reload();
-        }
-		function exportToExcel() {
-			/* Get table element */
-			const table = document.getElementById('excel-data');
-			
-			/* Convert table to workbook */
-			const wb = XLSX.utils.table_to_book(table);
-
-			/* Generate Excel file */
-			XLSX.writeFile(wb, 'data.xlsx');
-		}
-		// Format the list to display
-        function formatDataDisplay() {
-			// Get all cells containing an ellipsis
-			var cells = document.querySelectorAll('.container th, .container td');
-			cells.forEach(function(cell) {
-				// Check if the content exceeds max-width
-				if (cell.scrollWidth > cell.offsetWidth) {
-					// Reduce the font size until the content does not exceed max-width
-					while (cell.scrollWidth > cell.offsetWidth) {
-						var fontSize = window.getComputedStyle(cell).fontSize;
-						cell.style.fontSize = (parseFloat(fontSize) - 1) + 'px';
-					}
-				}
-			});
-			console.log('The page has been completely formated.');
-		}
-	</script>
-	
-	<!-- The code works with view -->
-	<script>
-		
-		// The code displays the list in the browser
-		function displayData(data, element) {
-
-			// Create and populate tables with data
-			data.forEach(row => {
-				const tr = document.createElement('tr');
-				for (const key in row) {
-					const td = document.createElement('td');
-					td.textContent = row[key];
-					tr.appendChild(td);
-				}
-				element.appendChild(tr);
-			});
-		}
-		// Print exam schedule
-		function printExamSchedule(schedule) {
-			schedule.forEach(entry => {
-				console.log(`Course ${entry.course} will be lecturers ${entry.proctor1} monitor the exam.`);
-			});
-		}
-		
-		function printSchedule() {
-            // Open the browser print dialog box
-            window.print();
-        }
-	</script>
-		
-	<!-- Code that works with controller: display list -->
-	<script>
+		// model data exam
 		// Initialize data
-		const data = [
+		const dataExam = [
 			{
 				"TT": 1,
 				"Lớp HP": "ABC123",
@@ -351,15 +206,45 @@
 				"Khóa": 12
 			}
 		];
-		// Display the list in the browser
-		displayData(data, getElementDisplayByElementID());
 		
-		// Get courses data from data
-		const courses = getDataCourseFrom(data);
-		console.log(courses);
+		function getDataExam() {
+			return dataExam;
+		}
+		
+		function setDataExam(data) {
+			dataExam = data;
+		}
+	
+		function getDataCourseFromDataExam() {
+			let courses = [];
+			// Go through each element in the data array
+			data.forEach(row => {
+				// Get the values of the necessary columns from the data array
+				const maHP = row["Mã HP"];
+				const gioThi = row["Giờ thi"];
+				const ngayThi = row["Ngày thi"];
+				const phongThi = row["Phòng thi"];
+				const ct1 = row["CT 1"];
+				const ct2 = row["CT 2"];
 
+				// Create a new object with the properties code, date, time, room, proctor1, proctor2 and assign the corresponding values
+				const course = {
+					code: maHP,
+					date: ngayThi,
+					time: gioThi,
+					room: phongThi,
+					proctor1: ct1,
+					proctor2: ct2
+				};
+				// Add the class object to the courses array
+				courses.push(course);
+			});
+			return courses;
+		}
+	
+		// model data instructor
 		// initialize instructors
-		const instructors = [
+		const instructorDatas = [
 			{ name: "Dr. Smith", availableTimes: ["09:00-11:00", "14:00-16:00"] },
 			{ name: "Prof. Johnson", availableTimes: ["09:00-11:00", "14:00-16:00"] },
 			{ name: "Dr. Anderson", availableTimes: ["10:00-12:00", "13:00-15:00"] },
@@ -368,19 +253,154 @@
 			{ name: "Prof. Lee", availableTimes: ["08:00-10:00", "14:00-16:00"] }
 		];
 		
+		function getInstructorDatas() {
+			return instructorDatas;
+		}
+		
+		function setInstructorDatas(instructors) {
+			instructorDatas = instructors;
+		}
+	</script>
+	
+	<!-- The code works with service -->
+	<script>
+		// Handle exam scheduling
+		function ArrangeSchedulingWithLecturer(courses, instructors) {
+			// Initialize an empty calendar
+			const schedule = [];
+
+			// Assign instructors to each course
+			courses.forEach(course => {
+				instructors.some(instructor => {
+					if (course.time.split("-").some(time => instructor.availableTimes.toString().includes(time.toString().trim()))) {
+						schedule.push({ course: course.code, proctor1: instructor.name });
+						course.proctor1 = instructor.name;
+						instructors.splice(instructors.indexOf(instructor), 1); // Remove assigned instructor
+						return true;
+					}
+					return false;
+				});
+			});
+			return schedule;
+		}
+		// Read excel files
+		function readFileExcel(input) {
+			debugger
+            const file = input.files[0];
+            const reader = new FileReader();
+			
+			return new Promise((resolve, reject) => {
+				reader.onload = function(e) {
+					const data = new Uint8Array(e.target.result);
+					const workbook = XLSX.read(data, { type: 'array' });
+
+					// Get data from the first sheet
+					const firstSheetName = workbook.SheetNames[0];
+					const worksheet = workbook.Sheets[firstSheetName];
+
+					// Convert data to array of objects
+					const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, range: 1, defval: ''});
+					// Display data in the browser
+					resolve(jsonData);
+				};
+				reader.onerror = function(error) {
+					reject(`Error reading file: ${error}`);
+				};
+
+				reader.readAsArrayBuffer(file);
+			});
+        }
+		// Handle page reload
+		function reloadPage() {
+            sessionStorage.removeItem('savedContent');
+            location.reload();
+        }
+		function exportToExcel() {
+			/* Get table element */
+			const table = document.getElementById('excel-data');
+			
+			/* Convert table to workbook */
+			const wb = XLSX.utils.table_to_book(table);
+
+			/* Generate Excel file */
+			XLSX.writeFile(wb, 'data.xlsx');
+		}
+		// Format the list to display
+        function formatDataDisplay() {
+			// Get all cells containing an ellipsis
+			var cells = document.querySelectorAll('.container th, .container td');
+			cells.forEach(function(cell) {
+				// Check if the content exceeds max-width
+				if (cell.scrollWidth > cell.offsetWidth) {
+					// Reduce the font size until the content does not exceed max-width
+					while (cell.scrollWidth > cell.offsetWidth) {
+						var fontSize = window.getComputedStyle(cell).fontSize;
+						cell.style.fontSize = (parseFloat(fontSize) - 1) + 'px';
+					}
+				}
+			});
+			console.log('The page has been completely formated.');
+		}
+		// Print data
+		function printSchedule() {
+            // Open the browser print dialog box
+            window.print();
+        }
+	</script>
+	
+	<!-- The code works with view -->
+	<script>
+		// The code displays the list in the browser
+		function displayData(data, element) {
+
+			// Create and populate tables with data
+			data.forEach(row => {
+				const tr = document.createElement('tr');
+				for (const key in row) {
+					const td = document.createElement('td');
+					td.textContent = row[key];
+					tr.appendChild(td);
+				}
+				element.appendChild(tr);
+			});
+		}
+		// Print exam schedule
+		function printExamSchedule(schedule) {
+			schedule.forEach(entry => {
+				console.log(`Course ${entry.course} will be lecturers ${entry.proctor1} monitor the exam.`);
+			});
+		}
+		
+	</script>
+		
+	
+	<!-- Code that works with controller: display list -->
+	<script>
+		debugger
+		const data = getDataExam();
+		// Display the list in the browser
+		displayData(data, getElementDisplayByElementID());
+		
+		// Get courses data from data
+		const courses = getDataCourseFromDataExam();
+		console.log(courses);
+
+		// Get instructor datas
+		const instructors = getInstructorDatas();
+		
 		// Arrange exam schedule with lecturer
 		const schedule = ArrangeSchedulingWithLecturer(courses, instructors);
 		console.log(schedule);
 		
 		document.addEventListener('DOMContentLoaded', function() {
-			formatDataDisplay();
+			handleFormatDataDisplay();
             // Perform actions after the page is completely loaded
             console.log('The page has been completely loaded.');
         });
 		
 	</script>
 	
-	<!-- Code that works with controller: hand import file -->
+	<!-- Code that works with controller: handle import file -->
 	<script>
 		function handleImportFile(input) {
 			debugger
@@ -396,6 +416,32 @@
 				console.error(error);
 			});
 			//console.log(a);
+		}
+	</script>
+	
+	<!-- Code that works with controller: handle print exam schedule -->
+	<script>
+		function handlePrintSchedule() {
+			printSchedule();
+		}
+	</script>
+	
+	<!-- Code that works with controller: handle export to excel -->
+	<script>
+		function handleExportToExcel() {
+			exportToExcel();
+		}
+	</script>
+	<!-- Code that works with controller: handle format data display -->
+	<script>
+		function handleFormatDataDisplay() {
+			formatDataDisplay();
+		}
+	</script>
+	<!-- Code that works with controller: handle reload -->
+	<script>
+		function handleReloadPage() {
+			reloadPage();
 		}
 	</script>
 </body>
