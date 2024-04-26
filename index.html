@@ -51,7 +51,7 @@
     </style>
 </head>
 <body>
-	<input type="file" id="excel-file" accept=".xlsx, .xls" onchange="handleFile(this)">
+	<input type="file" id="excel-file" accept=".xlsx, .xls" onchange="handleImportFile(this)">
     <h1>Semester exam schedule</h1>
 	<h2>Action: <span class="action">scheduling</span></h2>
 	<button onclick="reloadPage()">scheduling</button>
@@ -87,8 +87,25 @@
 		</tbody>
     </table>
 	</div>
+	
+	<!-- Commonly used consts -->
 	<script>
-		// the code works with service
+		
+	</script>
+	<!-- The code works with model -->
+	<script>
+		// Model element
+		const elementID = 'scheduleBody';
+		function getElementDisplayByElementID() {
+			return document.getElementById(elementID);;
+		}
+		function setElementID(elementID) {
+			elementID = element;
+		}
+	</script>
+	
+	<!-- The code works with service -->
+	<script>
 		function getDataCourseFrom(data) {
 			let courses = [];
 			// Go through each element in the data array
@@ -134,26 +151,37 @@
 			});
 			return schedule;
 		}
-		// Handling data entry using excel files
-		function handleFile(input) {
+		// remove content in element
+		function removeContent(element) {
+			element.innerHTML = ''; // remove all content in the element
+		}
+		
+		// Read excel files
+		function readFileExcel(input) {
+			debugger
             const file = input.files[0];
             const reader = new FileReader();
+			
+			return new Promise((resolve, reject) => {
+				reader.onload = function(e) {
+					const data = new Uint8Array(e.target.result);
+					const workbook = XLSX.read(data, { type: 'array' });
 
-            reader.onload = function(e) {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
+					// Get data from the first sheet
+					const firstSheetName = workbook.SheetNames[0];
+					const worksheet = workbook.Sheets[firstSheetName];
 
-                // Get data from the first sheet
-                const firstSheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[firstSheetName];
+					// Convert data to array of objects
+					const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, range: 1, defval: ''});
+					// Display data in the browser
+					resolve(jsonData);
+				};
+				reader.onerror = function(error) {
+					reject(`Error reading file: ${error}`);
+				};
 
-                // Convert data to array of objects
-                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, range: 1, defval: ''});
-                // Display data in the browser
-                displayData(jsonData);
-            };
-
-            reader.readAsArrayBuffer(file);
+				reader.readAsArrayBuffer(file);
+			});
         }
 		// Handle page reload
 		function reloadPage() {
@@ -188,23 +216,23 @@
 		}
 	</script>
 	
+	<!-- The code works with view -->
 	<script>
-		// The code works with view
-		// The code displays the list in the browser
-		function displayData(data) {
-            const container = document.getElementById('scheduleBody');
-			let html = "";
-            data.forEach(row => {
-                html += '<tr>';
-                row.forEach(cell => {
-                    html += `<td>${cell}</td>`;
-                });
-                html += '</tr>';
-            });
-			console.log(html);
-			container.innerHTML = html;
-        }
 		
+		// The code displays the list in the browser
+		function displayData(data, element) {
+
+			// Create and populate tables with data
+			data.forEach(row => {
+				const tr = document.createElement('tr');
+				for (const key in row) {
+					const td = document.createElement('td');
+					td.textContent = row[key];
+					tr.appendChild(td);
+				}
+				element.appendChild(tr);
+			});
+		}
 		// Print exam schedule
 		function printExamSchedule(schedule) {
 			schedule.forEach(entry => {
@@ -218,9 +246,8 @@
         }
 	</script>
 		
+	<!-- Code that works with controller: display list -->
 	<script>
-		// debugger
-		// Code that works with controller
 		// Initialize data
 		const data = [
 			{
@@ -324,9 +351,8 @@
 				"Khóa": 12
 			}
 		];
-		debugger
 		// Display the list in the browser
-		displayData(data);
+		displayData(data, getElementDisplayByElementID());
 		
 		// Get courses data from data
 		const courses = getDataCourseFrom(data);
@@ -352,6 +378,25 @@
             console.log('The page has been completely loaded.');
         });
 		
-	</script>	
+	</script>
+	
+	<!-- Code that works with controller: hand import file -->
+	<script>
+		function handleImportFile(input) {
+			debugger
+			readFileExcel(input).then(jsonData => {
+				// Process json Data here	
+				removeContent(getElementDisplayByElementID());
+				// Display data
+				console.log(jsonData);
+				displayData(jsonData, getElementDisplayByElementID());
+			})
+			.catch(error => {
+				// Error handling here
+				console.error(error);
+			});
+			//console.log(a);
+		}
+	</script>
 </body>
 </html>
