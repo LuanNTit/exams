@@ -54,7 +54,7 @@
 	<input type="file" id="excel-file" accept=".xlsx, .xls" onchange="handleImportFile(this)">
     <h1>Semester exam schedule</h1>
 	<h2>Action: <span class="action">scheduling</span></h2>
-	<button onclick="reloadPage()">scheduling</button>
+	<button onclick="handleScheduling()">scheduling</button>
 	<button onclick="handlePrintSchedule()">Print Exam Schedule</button>
 	<button onclick="handleExportToExcel()">Export to Excel</button>
 	<button onclick="handleFormatDataDisplay()">Format Data Display</button>
@@ -62,389 +62,34 @@
 	<button onclick="handleReloadPage()">Fetch Data</button>
 	<button onclick="handleReloadPage()">Save Data</button>
 	<div class="container">
-    <table id="excel-data">
-		<thead>
-			<tr>
-				<th>TT</th>
-				<th>Lớp HP</th>
-				<th>Mã HP</th>
-				<th>Tên học phần</th>
-				<th>Số TC</th>
-				<th>SL</th>
-				<th>HT Thi</th>
-				<th>Buổi</th>
-				<th>Giờ thi</th>
-				<th>Ngày thi</th>
-				<th>Phòng thi</th>
-				<th>GV chấm thi 1</th>
-				<th>GV chấm thi 2</th>
-				<th>CT 1</th>
-				<th>CT 2</th>
-				<th>Thứ</th>
-				<th>Lớp</th>
-				<th>Khóa</th>
-			</tr>
-		</thead>
-		<tbody id="scheduleBody">
-		</tbody>
-    </table>
+		<table id="excel-data">
+			<thead>
+				<tr>
+					<th>TT</th>
+					<th>Lớp HP</th>
+					<th>Mã HP</th>
+					<th>Tên học phần</th>
+					<th>Số TC</th>
+					<th>SL</th>
+					<th>HT Thi</th>
+					<th>Buổi</th>
+					<th>Giờ thi</th>
+					<th>Ngày thi</th>
+					<th>Phòng thi</th>
+					<th>GV chấm thi 1</th>
+					<th>GV chấm thi 2</th>
+					<th>CT 1</th>
+					<th>CT 2</th>
+					<th>Thứ</th>
+					<th>Lớp</th>
+					<th>Khóa</th>
+				</tr>
+			</thead>
+			<tbody id="scheduleBody">
+			</tbody>
+		</table>
 	</div>
-	<!-- The code works with model -->
-	<script>
-		// Model element
-		const elementID = 'scheduleBody';
-		function getElementDisplayByElementID() {
-			return document.getElementById(elementID);;
-		}
-		function setElementID(elementID) {
-			elementID = element;
-		}
-		// remove content in element
-		function removeContent() {
-			getElementDisplayByElementID().innerHTML = ''; // remove all content in the element
-		}
-		
-		// model data exam
-		// Initialize data
-		const dataExam = [
-			{
-				"TT": 1,
-				"Lớp HP": "ABC123",
-				"Mã HP": "CSE101",
-				"Tên học phần": "Lập trình cơ bản",
-				"Số TC": 3,
-				"SL": 50,
-				"HT Thi": "Thi viết",
-				"Buổi": "Sáng",
-				"Giờ thi": "8:00 - 10:00",
-				"Ngày thi": "25/04/2024",
-				"Phòng thi": "Phòng A101",
-				"GV chấm thi 1": "Nguyễn Văn A",
-				"GV chấm thi 2": "Nguyễn Văn B",
-				"CT 1": "",
-				"CT 2": "",
-				"Thứ": 2,
-				"Lớp": "12C1",
-				"Khóa": 12
-			},
-			{
-				"TT": 2,
-				"Lớp HP": "DEF456",
-				"Mã HP": "MTH202",
-				"Tên học phần": "Toán cao cấp",
-				"Số TC": 4,
-				"SL": 40,
-				"HT Thi": "Thi trắc nghiệm",
-				"Buổi": "Chiều",
-				"Giờ thi": "14:00 - 16:00",
-				"Ngày thi": "26/04/2024",
-				"Phòng thi": "Phòng B202",
-				"GV chấm thi 1": "Phạm Thị C",
-				"GV chấm thi 2": "Nguyễn Văn D",
-				"CT 1": "",
-				"CT 2": "",
-				"Thứ": 3,
-				"Lớp": "12C2",
-				"Khóa": 12
-			},
-			{
-				"TT": 3,
-				"Lớp HP": "GHI789",
-				"Mã HP": "ENG101",
-				"Tên học phần": "Tiếng Anh cơ bản",
-				"Số TC": 2,
-				"SL": 30,
-				"HT Thi": "Thi lý thuyết",
-				"Buổi": "Sáng",
-				"Giờ thi": "9:00 - 11:00",
-				"Ngày thi": "27/04/2024",
-				"Phòng thi": "Phòng C303",
-				"GV chấm thi 1": "Lê Thị E",
-				"GV chấm thi 2": "Trần Văn F",
-				"CT 1": "",
-				"CT 2": "",
-				"Thứ": 4,
-				"Lớp": "12C3",
-				"Khóa": 12
-			},
-			{
-				"TT": 4,
-				"Lớp HP": "XYZ789",
-				"Mã HP": "PHY303",
-				"Tên học phần": "Vật lý cơ bản",
-				"Số TC": 3,
-				"SL": 45,
-				"HT Thi": "Thi thực hành",
-				"Buổi": "Chiều",
-				"Giờ thi": "13:00 - 15:00",
-				"Ngày thi": "28/04/2024",
-				"Phòng thi": "Phòng D404",
-				"GV chấm thi 1": "Hoàng Văn G",
-				"GV chấm thi 2": "Nguyễn Thị H",
-				"CT 1": "",
-				"CT 2": "",
-				"Thứ": 5,
-				"Lớp": "12C4",
-				"Khóa": 12
-			},
-			{
-				"TT": 5,
-				"Lớp HP": "JKL321",
-				"Mã HP": "BIO202",
-				"Tên học phần": "Sinh học cơ bản",
-				"Số TC": 3,
-				"SL": 40,
-				"HT Thi": "Thi thực hành",
-				"Buổi": "Sáng",
-				"Giờ thi": "10:00 - 12:00",
-				"Ngày thi": "29/04/2024",
-				"Phòng thi": "Phòng E505",
-				"GV chấm thi 1": "Trần Văn I",
-				"GV chấm thi 2": "Lê Thị K",
-				"CT 1": "",
-				"CT 2": "",
-				"Thứ": 6,
-				"Lớp": "12C5",
-				"Khóa": 12
-			}
-		];
-		
-		function getDataExam() {
-			return dataExam;
-		}
-		
-		function setDataExam(data) {
-			dataExam = data;
-		}
-	
-		function getDataCourseFromDataExam() {
-			let courses = [];
-			// Go through each element in the data array
-			data.forEach(row => {
-				// Get the values of the necessary columns from the data array
-				const maHP = row["Mã HP"];
-				const gioThi = row["Giờ thi"];
-				const ngayThi = row["Ngày thi"];
-				const phongThi = row["Phòng thi"];
-				const ct1 = row["CT 1"];
-				const ct2 = row["CT 2"];
-
-				// Create a new object with the properties code, date, time, room, proctor1, proctor2 and assign the corresponding values
-				const course = {
-					code: maHP,
-					date: ngayThi,
-					time: gioThi,
-					room: phongThi,
-					proctor1: ct1,
-					proctor2: ct2
-				};
-				// Add the class object to the courses array
-				courses.push(course);
-			});
-			return courses;
-		}
-	
-		// model data instructor
-		// initialize instructors
-		const instructorDatas = [
-			{ name: "Dr. Smith", availableTimes: ["09:00-11:00", "14:00-16:00"] },
-			{ name: "Prof. Johnson", availableTimes: ["09:00-11:00", "14:00-16:00"] },
-			{ name: "Dr. Anderson", availableTimes: ["10:00-12:00", "13:00-15:00"] },
-			{ name: "Prof. Martinez", availableTimes: ["08:00-10:00", "12:00-14:00"] },
-			{ name: "Dr. Garcia", availableTimes: ["11:00-13:00", "16:00-18:00"] },
-			{ name: "Prof. Lee", availableTimes: ["08:00-10:00", "14:00-16:00"] }
-		];
-		
-		function getInstructorDatas() {
-			return instructorDatas;
-		}
-		
-		function setInstructorDatas(instructors) {
-			instructorDatas = instructors;
-		}
-	</script>
-	
-	<!-- The code works with service -->
-	<script>
-		// Handle exam scheduling
-		function ArrangeSchedulingWithLecturer(courses, instructors) {
-			// Initialize an empty calendar
-			const schedule = [];
-
-			// Assign instructors to each course
-			courses.forEach(course => {
-				instructors.some(instructor => {
-					if (course.time.split("-").some(time => instructor.availableTimes.toString().includes(time.toString().trim()))) {
-						schedule.push({ course: course.code, proctor1: instructor.name });
-						course.proctor1 = instructor.name;
-						instructors.splice(instructors.indexOf(instructor), 1); // Remove assigned instructor
-						return true;
-					}
-					return false;
-				});
-			});
-			return schedule;
-		}
-		// Read excel files
-		function readFileExcel(input) {
-			debugger
-            const file = input.files[0];
-            const reader = new FileReader();
-			
-			return new Promise((resolve, reject) => {
-				reader.onload = function(e) {
-					const data = new Uint8Array(e.target.result);
-					const workbook = XLSX.read(data, { type: 'array' });
-
-					// Get data from the first sheet
-					const firstSheetName = workbook.SheetNames[0];
-					const worksheet = workbook.Sheets[firstSheetName];
-
-					// Convert data to array of objects
-					const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, range: 1, defval: ''});
-					// Display data in the browser
-					resolve(jsonData);
-				};
-				reader.onerror = function(error) {
-					reject(`Error reading file: ${error}`);
-				};
-
-				reader.readAsArrayBuffer(file);
-			});
-        }
-		// Handle page reload
-		function reloadPage() {
-            sessionStorage.removeItem('savedContent');
-            location.reload();
-        }
-		function exportToExcel() {
-			/* Get table element */
-			const table = document.getElementById('excel-data');
-			
-			/* Convert table to workbook */
-			const wb = XLSX.utils.table_to_book(table);
-
-			/* Generate Excel file */
-			XLSX.writeFile(wb, 'data.xlsx');
-		}
-		// Format the list to display
-        function formatDataDisplay() {
-			// Get all cells containing an ellipsis
-			var cells = document.querySelectorAll('.container th, .container td');
-			cells.forEach(function(cell) {
-				// Check if the content exceeds max-width
-				if (cell.scrollWidth > cell.offsetWidth) {
-					// Reduce the font size until the content does not exceed max-width
-					while (cell.scrollWidth > cell.offsetWidth) {
-						var fontSize = window.getComputedStyle(cell).fontSize;
-						cell.style.fontSize = (parseFloat(fontSize) - 1) + 'px';
-					}
-				}
-			});
-			console.log('The page has been completely formated.');
-		}
-		// Print data
-		function printSchedule() {
-            // Open the browser print dialog box
-            window.print();
-        }
-	</script>
-	
-	<!-- The code works with view -->
-	<script>
-		// The code displays the list in the browser
-		function displayData(data, element) {
-
-			// Create and populate tables with data
-			data.forEach(row => {
-				const tr = document.createElement('tr');
-				for (const key in row) {
-					const td = document.createElement('td');
-					td.textContent = row[key];
-					tr.appendChild(td);
-				}
-				element.appendChild(tr);
-			});
-		}
-		// Print exam schedule
-		function printExamSchedule(schedule) {
-			schedule.forEach(entry => {
-				console.log(`Course ${entry.course} will be lecturers ${entry.proctor1} monitor the exam.`);
-			});
-		}
-		
-	</script>
-		
-	
-	<!-- Code that works with controller: display list -->
-	<script>
-		debugger
-		const data = getDataExam();
-		// Display the list in the browser
-		displayData(data, getElementDisplayByElementID());
-		
-		// Get courses data from data
-		const courses = getDataCourseFromDataExam();
-		console.log(courses);
-
-		// Get instructor datas
-		const instructors = getInstructorDatas();
-		
-		// Arrange exam schedule with lecturer
-		const schedule = ArrangeSchedulingWithLecturer(courses, instructors);
-		console.log(schedule);
-		
-		document.addEventListener('DOMContentLoaded', function() {
-			handleFormatDataDisplay();
-            // Perform actions after the page is completely loaded
-            console.log('The page has been completely loaded.');
-        });
-		
-	</script>
-	
-	<!-- Code that works with controller: handle import file -->
-	<script>
-		function handleImportFile(input) {
-			debugger
-			readFileExcel(input).then(jsonData => {
-				// Process json Data here	
-				removeContent(getElementDisplayByElementID());
-				// Display data
-				console.log(jsonData);
-				displayData(jsonData, getElementDisplayByElementID());
-			})
-			.catch(error => {
-				// Error handling here
-				console.error(error);
-			});
-			//console.log(a);
-		}
-	</script>
-	
-	<!-- Code that works with controller: handle print exam schedule -->
-	<script>
-		function handlePrintSchedule() {
-			printSchedule();
-		}
-	</script>
-	
-	<!-- Code that works with controller: handle export to excel -->
-	<script>
-		function handleExportToExcel() {
-			exportToExcel();
-		}
-	</script>
-	<!-- Code that works with controller: handle format data display -->
-	<script>
-		function handleFormatDataDisplay() {
-			formatDataDisplay();
-		}
-	</script>
-	<!-- Code that works with controller: handle reload -->
-	<script>
-		function handleReloadPage() {
-			reloadPage();
-		}
-	</script>
+	<script src="controller/HandleFileController.js" type="module"></script>
+	<script src="controller/ExamController.js" type="module"></script>
 </body>
 </html>
