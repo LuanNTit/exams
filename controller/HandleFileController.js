@@ -20,14 +20,12 @@ export function handleImportFile(input) {
 }
 	
 // Code that works with controller: handle export to excel
-function handleExportToExcel() {
-	exportToExcel();
+export function handleExportToExcel() {
+	HandleFileService.exportToExcel();
 }
 
-
-
 // Code that works with controller: handle reload -->
-function handleReloadPage() {
+export function handleReloadPage() {
 	reloadPage();
 }
 	
@@ -43,4 +41,9 @@ function handleScheduling() {
 	setExamDatas(["ct1", "ct2"], dataCellCt1AndCt2);
 	// hien thi bang exam data
 	
+}
+
+// Code that works with controller: handle print exam schedule
+export function handlePrintSchedule() {
+	HandleView.printSchedule();
 }
