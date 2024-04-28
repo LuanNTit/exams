@@ -40,3 +40,9 @@ export function printSchedule() {
     // Open the browser print dialog box
     window.print();
 }
+
+// Handle page reload
+export function reloadPage() {
+    sessionStorage.removeItem('savedContent');
+    location.reload();
+}

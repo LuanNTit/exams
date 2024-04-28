@@ -13,3 +13,6 @@ elementPrint.addEventListener('click', HandleFileController.handlePrintSchedule)
 
 const elementExport = ElementUtil.getElementDisplayById('export');
 elementExport.addEventListener('click', HandleFileController.handleExportToExcel);
+
+const elementReload = ElementUtil.getElementDisplayById('reload');
+elementReload.addEventListener('click', ExamController.handleReloadPage);

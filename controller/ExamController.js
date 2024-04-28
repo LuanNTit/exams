@@ -15,3 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
 export function handleFormatDataDisplay() {
 	HandleView.formatDataDisplay();
 }
+
+// Code that works with controller: handle reload -->
+export function handleReloadPage() {
+	HandleView.reloadPage();
+}

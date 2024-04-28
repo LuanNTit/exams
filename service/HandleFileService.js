@@ -47,11 +47,7 @@ export function readFileExcel(input) {
         reader.readAsArrayBuffer(file);
     });
 }
-// Handle page reload
-export function reloadPage() {
-    sessionStorage.removeItem('savedContent');
-    location.reload();
-}
+
 export function exportToExcel() {
     /* Get table element */
     const table = document.getElementById('excel-data');

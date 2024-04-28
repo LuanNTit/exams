@@ -23,11 +23,6 @@ export function handleImportFile(input) {
 export function handleExportToExcel() {
 	HandleFileService.exportToExcel();
 }
-
-// Code that works with controller: handle reload -->
-export function handleReloadPage() {
-	reloadPage();
-}
 	
 // Code that works with controller: handle scheduling
 function handleScheduling() {
