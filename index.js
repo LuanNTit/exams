@@ -8,3 +8,5 @@ elementFile.addEventListener('change', HandleFileController.handleImportFile);
 const elementFormat = ElementUtil.getElementDisplayById('format');
 elementFormat.addEventListener('click', ExamController.handleFormatDataDisplay);
 
+const elementPrint = ElementUtil.getElementDisplayById('print');
+elementPrint.addEventListener('click', ExamController.handlePrintSchedule);

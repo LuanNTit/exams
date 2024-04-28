@@ -34,3 +34,9 @@ export function formatDataDisplay() {
     });
     console.log('The page has been completely formated.');
 }
+
+// Print data
+export function printSchedule() {
+    // Open the browser print dialog box
+    window.print();
+}

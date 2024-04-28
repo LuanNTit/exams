@@ -15,3 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
 export function handleFormatDataDisplay() {
 	HandleView.formatDataDisplay();
 }
+
+// Code that works with controller: handle print exam schedule
+export function handlePrintSchedule() {
+	HandleView.printSchedule();
+}

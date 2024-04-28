@@ -19,11 +19,6 @@ export function handleImportFile(input) {
 	//console.log(a);
 }
 	
-// Code that works with controller: handle print exam schedule
-function handlePrintSchedule() {
-	printSchedule();
-}
-	
 // Code that works with controller: handle export to excel
 function handleExportToExcel() {
 	exportToExcel();

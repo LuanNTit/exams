@@ -62,8 +62,3 @@ export function exportToExcel() {
     /* Generate Excel file */
     XLSX.writeFile(wb, 'data.xlsx');
 }
-// Print data
-export function printSchedule() {
-    // Open the browser print dialog box
-    window.print();
-}
