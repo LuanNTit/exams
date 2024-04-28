@@ -12,3 +12,6 @@ export function removeContentDisplayById(elementID) {
 export function removeContentDisplay() {
     getElementDisplay().innerHTML = ''; // remove all content in the element
 }
+export function removeContentDisplayByElement(element) {
+    element.innerHTML = ''; // remove all content in the element
+}

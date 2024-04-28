@@ -1,6 +1,7 @@
+import * as ElementUtil from '../util/ElementUtil.js';
 // The code displays the list in the browser
 export function displayData(data, element) {
-
+    ElementUtil.removeContentDisplayByElement(element);
     // Create and populate tables with data
     data.forEach(row => {
         const tr = document.createElement('tr');

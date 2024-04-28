@@ -22,7 +22,6 @@ export function arrangeCoursesWithInstructors() {
 }
 // Read excel files
 export function readFileExcel(input) {
-    debugger
     const file = input.target.files[0];
     const reader = new FileReader();
 

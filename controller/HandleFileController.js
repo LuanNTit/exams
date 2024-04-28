@@ -2,21 +2,17 @@ import * as HandleFileService from '../service/HandleFileService.js';
 import * as HandleView from '../view/HandleView.js';
 import * as ElementUtil from '../util/ElementUtil.js';
 
-//Code that works with controller: handle import file
-export function handleImportFile(input) {
+// import file
+export function importFileAndDisplay(input) {
 	console.log("Handling import file...");
 	HandleFileService.readFileExcel(input).then(jsonData => {
-		// Process json Data here	
-		ElementUtil.removeContentDisplay();
 		// Display data
 		console.log(jsonData);
 		HandleView.displayData(jsonData, ElementUtil.getElementDisplay());
 	})
 	.catch(error => {
-		// Error handling here
 		console.error(error);
 	});
-	//console.log(a);
 }
 	
 // Code that works with controller: handle export to excel
@@ -24,7 +20,7 @@ export function handleExportToExcel() {
 	HandleFileService.exportToExcel();
 }
 	
-// Code that works with controller: handle scheduling
+// Code that works with service: handle scheduling
 function handleScheduling() {
 	debugger
 	const courses = arrangeCoursesWithInstructors();
