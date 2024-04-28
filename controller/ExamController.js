@@ -10,3 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	// Perform actions after the page is completely loaded
 	console.log('The page has been completely loaded.');
 });
+
+// Code that works with controller: handle format data display
+export function handleFormatDataDisplay() {
+	HandleView.formatDataDisplay();
+}

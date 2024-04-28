@@ -29,10 +29,7 @@ function handleExportToExcel() {
 	exportToExcel();
 }
 
-// Code that works with controller: handle format data display
-function handleFormatDataDisplay() {
-	formatDataDisplay();
-}
+
 
 // Code that works with controller: handle reload -->
 function handleReloadPage() {
