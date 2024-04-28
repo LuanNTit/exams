@@ -47,47 +47,67 @@
 		.action {
 			color: red;
 		}
-
+		.row {
+			display: flex;
+		}
+		.inline-block {
+			display: inline-block;
+			width: 50%;
+		}
+		.text-right {
+			text-align: right;
+		}
     </style>
 </head>
 <body>
 	<input type="file" id="excel-file" accept=".xlsx, .xls">
     <h1>Semester exam schedule</h1>
 	<h2>Action: <span class="action">scheduling</span></h2>
-	<button onclick="">scheduling</button>
-	<button id="print">Print Exam Schedule</button>
-	<button id="export">Export to Excel</button>
-	<button id="format">Format Data Display</button>
-	<button id="fetch">Reload</button>
-	<button id="fetch">Fetch Data</button>
-	<button id="save">Save Data</button>
 	<div class="container">
-		<table id="excel-data">
-			<thead>
-				<tr>
-					<th>TT</th>
-					<th>Lớp HP</th>
-					<th>Mã HP</th>
-					<th>Tên học phần</th>
-					<th>Số TC</th>
-					<th>SL</th>
-					<th>HT Thi</th>
-					<th>Buổi</th>
-					<th>Giờ thi</th>
-					<th>Ngày thi</th>
-					<th>Phòng thi</th>
-					<th>GV chấm thi 1</th>
-					<th>GV chấm thi 2</th>
-					<th>CT 1</th>
-					<th>CT 2</th>
-					<th>Thứ</th>
-					<th>Lớp</th>
-					<th>Khóa</th>
-				</tr>
-			</thead>
-			<tbody id="scheduleBody">
-			</tbody>
-		</table>
+		<div class="row">
+			<div class="inline-block">
+				<button onclick="">scheduling</button>
+				<button id="print">Print Exam Schedule</button>
+				<button id="export">Export to Excel</button>
+				<button id="fetch">Fetch Data</button>
+				<button id="save">Save Data</button>
+			</div>
+			<div class="inline-block text-right">
+				<button id="format">Format Data Display</button>
+				<button id="fetch">Reload</button>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<table id="excel-data">
+				<thead>
+					<tr>
+						<th>TT</th>
+						<th>Lớp HP</th>
+						<th>Mã HP</th>
+						<th>Tên học phần</th>
+						<th>Số TC</th>
+						<th>SL</th>
+						<th>HT Thi</th>
+						<th>Buổi</th>
+						<th>Giờ thi</th>
+						<th>Ngày thi</th>
+						<th>Phòng thi</th>
+						<th>GV chấm thi 1</th>
+						<th>GV chấm thi 2</th>
+						<th>CT 1</th>
+						<th>CT 2</th>
+						<th>Thứ</th>
+						<th>Lớp</th>
+						<th>Khóa</th>
+					</tr>
+				</thead>
+				<tbody id="scheduleBody">
+				</tbody>
+			</table>
+		</div>
+		
 	</div>
 	<script src="./index.js" type="module"></script>
 </body>
