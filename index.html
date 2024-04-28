@@ -51,16 +51,16 @@
     </style>
 </head>
 <body>
-	<input type="file" id="excel-file" accept=".xlsx, .xls" onchange="handleImportFile(this)">
+	<input type="file" id="excel-file" accept=".xlsx, .xls">
     <h1>Semester exam schedule</h1>
 	<h2>Action: <span class="action">scheduling</span></h2>
-	<button onclick="handleScheduling()">scheduling</button>
-	<button onclick="handlePrintSchedule()">Print Exam Schedule</button>
-	<button onclick="handleExportToExcel()">Export to Excel</button>
-	<button onclick="handleFormatDataDisplay()">Format Data Display</button>
-	<button onclick="handleReloadPage()">Reload</button>
-	<button onclick="handleReloadPage()">Fetch Data</button>
-	<button onclick="handleReloadPage()">Save Data</button>
+	<button onclick="">scheduling</button>
+	<button id="print">Print Exam Schedule</button>
+	<button id="export">Export to Excel</button>
+	<button id="format">Format Data Display</button>
+	<button id="fetch">Reload</button>
+	<button id="fetch">Fetch Data</button>
+	<button id="save">Save Data</button>
 	<div class="container">
 		<table id="excel-data">
 			<thead>
@@ -89,7 +89,6 @@
 			</tbody>
 		</table>
 	</div>
-	<script src="controller/HandleFileController.js" type="module"></script>
-	<script src="controller/ExamController.js" type="module"></script>
+	<script src="./index.js" type="module"></script>
 </body>
 </html>

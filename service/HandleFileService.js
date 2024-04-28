@@ -1,6 +1,6 @@
 import '../repository/BaseRepository.js';
 // Handle arrange courses with instructors
-function arrangeCoursesWithInstructors() {
+export function arrangeCoursesWithInstructors() {
     debugger
     // Initialize an empty calendar
     // get courses, instructors
@@ -21,9 +21,9 @@ function arrangeCoursesWithInstructors() {
     return courses;
 }
 // Read excel files
-function readFileExcel(input) {
+export function readFileExcel(input) {
     debugger
-    const file = input.files[0];
+    const file = input.target.files[0];
     const reader = new FileReader();
 
     return new Promise((resolve, reject) => {
@@ -48,11 +48,11 @@ function readFileExcel(input) {
     });
 }
 // Handle page reload
-function reloadPage() {
+export function reloadPage() {
     sessionStorage.removeItem('savedContent');
     location.reload();
 }
-function exportToExcel() {
+export function exportToExcel() {
     /* Get table element */
     const table = document.getElementById('excel-data');
 
@@ -63,7 +63,7 @@ function exportToExcel() {
     XLSX.writeFile(wb, 'data.xlsx');
 }
 // Print data
-function printSchedule() {
+export function printSchedule() {
     // Open the browser print dialog box
     window.print();
 }

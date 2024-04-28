@@ -1,15 +1,16 @@
-import '../service/HandleFileService.js';
-import '../view/HandleView.js';
-	
+import * as HandleFileService from '../service/HandleFileService.js';
+import * as HandleView from '../view/HandleView.js';
+import * as ElementUtil from '../util/ElementUtil.js';
+
 //Code that works with controller: handle import file
-function handleImportFile(input) {
-	debugger
-	readFileExcel(input).then(jsonData => {
+export function handleImportFile(input) {
+	console.log("Handling import file...");
+	HandleFileService.readFileExcel(input).then(jsonData => {
 		// Process json Data here	
-		removeContent(getElementDisplayByElementID());
+		ElementUtil.removeContentDisplay();
 		// Display data
 		console.log(jsonData);
-		displayData(jsonData, getElementDisplayByElementID());
+		HandleView.displayData(jsonData, ElementUtil.getElementDisplay());
 	})
 	.catch(error => {
 		// Error handling here
