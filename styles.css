@@ -1,0 +1,51 @@
+/* CSS cho trang khi in */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .container, .container * {
+        visibility: visible;
+    }
+    .container {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
+.container {
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* gioi han chieu rong */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+}
+table th, table td {
+    white-space: nowrap; /* Ngăn chữ trong ô xuống dòng */
+    max-width: 70px; /* Giới hạn chiều rộng của ô */
+    
+}
+.action {
+    color: red;
+}
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+.col-1 {
+    width: 100%;
+}
+.text-right {
+    text-align: right;
+}

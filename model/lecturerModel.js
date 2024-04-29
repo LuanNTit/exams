@@ -1,6 +1,6 @@
 // model data instructor
 // initialize instructors
-const instructorDatas = [
+const lecturerDatas = [
     { name: "Dr. Smith", availableTimes: ["09:00-11:00", "14:00-16:00"] },
     { name: "Prof. Johnson", availableTimes: ["09:00-11:00", "14:00-16:00"] },
     { name: "Dr. Anderson", availableTimes: ["10:00-12:00", "13:00-15:00"] },
@@ -9,9 +9,9 @@ const instructorDatas = [
     { name: "Prof. Lee", availableTimes: ["08:00-10:00", "14:00-16:00"] }
 ];
 function getInstructorDatas() {
-    return instructorDatas;
+    return lecturerDatas;
 }
 
-function setInstructorDatas(instructors) {
-    instructorDatas = instructors;
+function setInstructorDatas(lecturer) {
+    lecturerDatas = lecturer;
 }

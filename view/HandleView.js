@@ -22,7 +22,7 @@ export function printExamSchedule(schedule) {
 // Format the list to display
 export function formatDataDisplay() {
     // Get all cells containing an ellipsis
-    var cells = document.querySelectorAll('.container th, .container td');
+    var cells = document.querySelectorAll('table th, table td');
     cells.forEach(function (cell) {
         // Check if the content exceeds max-width
         if (cell.scrollWidth > cell.offsetWidth) {

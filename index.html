@@ -5,56 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lịch thi</title>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
-    <style>
-		/* CSS cho trang khi in */
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            .container, .container * {
-                visibility: visible;
-            }
-            .container {
-                position: absolute;
-                left: 0;
-                top: 0;
-            }
-        }
-		.container {
-			max-width: 1300px;
-			margin-left: auto;
-			margin-right: auto;
-			font-size: 14px;
-		}
-		/* gioi han chieu rong */
-        .container table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-		.container th, .container td {
-            white-space: nowrap; /* Ngăn chữ trong ô xuống dòng */
-            max-width: 70px; /* Giới hạn chiều rộng của ô */
-			
-        }
-		.action {
-			color: red;
-		}
-		.row {
-			display: flex;
-			justify-content: space-between;
-		}
-		.text-right {
-			text-align: right;
-		}
-    </style>
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 	<input type="file" id="excel-file" accept=".xlsx, .xls">
@@ -62,13 +13,21 @@
 	<h2>Action: <span class="action">scheduling</span></h2>
 	<div class="container">
 		<div class="row">
-			<div class="col">
+			<div class="col-2">
 				<button onclick="">scheduling</button>
 				<button id="print">Print Exam Schedule</button>
 				<button id="export">Export to Excel</button>
 				<button id="fetch">Fetch Data</button>
 				<button id="save">Save Data</button>
-			</div><div class="text-right">
+			</div>
+			<div class="col-2 text-right">
+				<label for="fruits">Choose your favorite fruits:</label>
+				<select id="fruits" name="fruits" multiple>
+				<option value="apple">Apple</option>
+				<option value="banana">Banana</option>
+				<option value="orange">Orange</option>
+				<option value="strawberry">Strawberry</option>
+				</select>
 				<button id="format">Format Data Display</button>
 				<button id="reload">Reload</button>
 			</div>
@@ -77,32 +36,75 @@
 	<div class="container"><br/></div>
 	<div class="container">
 		<div class="row">
-			<table id="excel-data">
-				<thead>
-					<tr>
-						<th>TT</th>
-						<th>Lớp HP</th>
-						<th>Mã HP</th>
-						<th>Tên học phần</th>
-						<th>Số TC</th>
-						<th>SL</th>
-						<th>HT Thi</th>
-						<th>Buổi</th>
-						<th>Giờ thi</th>
-						<th>Ngày thi</th>
-						<th>Phòng thi</th>
-						<th>GV chấm thi 1</th>
-						<th>GV chấm thi 2</th>
-						<th>CT 1</th>
-						<th>CT 2</th>
-						<th>Thứ</th>
-						<th>Lớp</th>
-						<th>Khóa</th>
-					</tr>
-				</thead>
-				<tbody id="scheduleBody">
-				</tbody>
-			</table>
+			<div class="col-3">
+				<table id="excel-data">
+					<thead>
+						<tr>
+							<th>TT</th>
+							<th>Mã HP</th>
+							<th>Giờ thi</th>
+							<th>Ngày thi</th>
+							<th>Phòng thi</th>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+			</div>
+			<div class="col-3">
+				<table id="excel-data">
+					<thead>
+						<tr>
+							<th>TT</th>
+							<th>Tên giản viên</th>
+							<th>Thời gian rãnh</th>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+			</div>
+			<div class="col-3">
+				<button>Sắp xếp</button>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-1">
+				<br/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-1">
+				<table id="excel-data">
+					<thead>
+						<tr>
+							<th>TT</th>
+							<th>Lớp HP</th>
+							<th>Mã HP</th>
+							<th>Tên học phần</th>
+							<th>Số TC</th>
+							<th>SL</th>
+							<th>HT Thi</th>
+							<th>Buổi</th>
+							<th>Giờ thi</th>
+							<th>Ngày thi</th>
+							<th>Phòng thi</th>
+							<th>GV chấm thi 1</th>
+							<th>GV chấm thi 2</th>
+							<th>CT 1</th>
+							<th>CT 2</th>
+							<th>Thứ</th>
+							<th>Lớp</th>
+							<th>Khóa</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody id="scheduleBody">
+					</tbody>
+				</table>
+			</div>
 		</div>
 		
 	</div>
