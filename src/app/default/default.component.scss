@@ -1,3 +1,9 @@
+.container {
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 img {
     min-width: 1300px;
     object-fit: contain;
@@ -41,4 +47,10 @@ img {
     width: 100%;
     display: flex;
     justify-content: space-between;
+}
+
+.main.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }

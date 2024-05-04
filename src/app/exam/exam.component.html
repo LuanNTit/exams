@@ -1,73 +1,81 @@
 <div class="container">
     <div class="row">
-        <div class="col-2">
-            <form>
-                <input type="text" placeholder="Filter by city" #filter>
-                <button class="primary" type="button" (click)="filterResults(filter.value)">Search</button>
+        <div class="col-12">
+            <form class="search-form">
+                <input type="text" placeholder="Tìm theo tên học phần" #filter class="search-input">
+                <button type="button" class="search-button" (click)="filterResults(filter.value)">Tìm kiếm</button>
             </form>
         </div>
-        <div class="col-2">
-            <button id="fetch">Fetch Data</button>
-			<button id="save" (click)="saveSchedulingExam()">Save Data</button>
-            <button id="print" printSectionId="print-content" [useExistingCss]="true" ngxPrint>Print Exam Schedule</button>
-			<button id="export" (click)="exportToExcel()">Export to Excel</button>
-            <button id="format" (click)="formatDataDisplay()">Format Data Display</button>
-			<button id="reload" (click)="reloadPage()">Reload</button>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-12">
+            <div class="button-group">
+                <button id="fetch" class="action-button">Tìm nạp dữ liệu</button>
+                <button id="save" class="action-button" (click)="saveSchedulingExam()">Lưu lịch thi</button>
+                <button id="print" class="action-button" printSectionId="print-content" [useExistingCss]="true"
+                    ngxPrint>In lịch thi</button>
+                <button id="export" class="action-button" (click)="exportToExcel()">Xuất sang excel</button>
+                <button id="format" class="action-button" (click)="formatDataDisplay()">Định dạng dữ liệu hiển
+                    thị</button>
+                <button id="reload" class="action-button" (click)="reloadPage()">Tải lại</button>
+            </div>
         </div>
     </div>
-    <div class="row mg-10">
-        <div class="col-1" id="print-content">
-            <table id="excel-data">
-                <thead>
-                    <tr>
-                        <th>TT</th>
-                        <th>Lớp HP</th>
-                        <th>Mã HP</th>
-                        <th>Tên học phần</th>
-                        <th>Số TC</th>
-                        <th>SL</th>
-                        <th>HT Thi</th>
-                        <th>Buổi</th>
-                        <th>Giờ thi</th>
-                        <th>Ngày thi</th>
-                        <th>Phòng thi</th>
-                        <th>GV chấm thi 1</th>
-                        <th>GV chấm thi 2</th>
-                        <th>CT 1</th>
-                        <th>CT 2</th>
-                        <th>Thứ</th>
-                        <th>Lớp</th>
-                        <th>Khóa</th>
-                        <th class="hidden">Action</th>
-                    </tr>
-                </thead>
-                <tbody class="results" id="scheduleBody">
-                    <ng-container *ngFor="let exam of filteredExamList">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-wrapper">
+                <table id="excel-data" class="data-table">
+                    <thead>
                         <tr>
-                            <td>{{ exam.id }}</td>
-                            <td>{{ exam.classSession }}</td>
-                            <td>{{ exam.courseCode }}</td>
-                            <td>{{ exam.courseName }}</td>
-                            <td>{{ exam.creditClass }}</td>
-                            <td>{{ exam.quantity }}</td>
-                            <td>{{ exam.examType }}</td>
-                            <td>{{ exam.session }}</td>
-                            <td>{{ exam.time }}</td>
-                            <td>{{ exam.date }}</td>
-                            <td>{{ exam.room }}</td>
-                            <td>{{ exam.examiner1 }}</td>
-                            <td>{{ exam.examiner2 }}</td>
-                            <td>{{ exam.proctor1 }}</td>
-                            <td>{{ exam.proctor2 }}</td>
-                            <td>{{ exam.dateOfWeek }}</td>
-                            <td>{{ exam.creditClass }}</td>
-                            <td>{{ exam.course }}</td>
-                            <td class="hidden">Sửa,lưu</td>
+                            <th>TT</th>
+                            <th>Lớp HP</th>
+                            <th>Mã HP</th>
+                            <th>Tên học phần</th>
+                            <th>Số TC</th>
+                            <th>SL</th>
+                            <th>HT Thi</th>
+                            <th>Buổi</th>
+                            <th>Giờ thi</th>
+                            <th>Ngày thi</th>
+                            <th>Phòng thi</th>
+                            <th>GV chấm thi 1</th>
+                            <th>GV chấm thi 2</th>
+                            <th>CT 1</th>
+                            <th>CT 2</th>
+                            <th>Thứ</th>
+                            <th>Lớp</th>
+                            <th>Khóa</th>
+                            <th class="hidden">Action</th>
                         </tr>
-                    </ng-container>
-                    
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="results" id="scheduleBody">
+                        <ng-container *ngFor="let exam of filteredExamList">
+                            <tr>
+                                <td>{{ exam.id }}</td>
+                                <td>{{ exam.classSession }}</td>
+                                <td>{{ exam.courseCode }}</td>
+                                <td>{{ exam.courseName }}</td>
+                                <td>{{ exam.creditClass }}</td>
+                                <td>{{ exam.quantity }}</td>
+                                <td>{{ exam.examType }}</td>
+                                <td>{{ exam.session }}</td>
+                                <td>{{ exam.time }}</td>
+                                <td>{{ exam.date }}</td>
+                                <td>{{ exam.room }}</td>
+                                <td>{{ exam.examiner1 }}</td>
+                                <td>{{ exam.examiner2 }}</td>
+                                <td>{{ exam.proctor1 }}</td>
+                                <td>{{ exam.proctor2 }}</td>
+                                <td>{{ exam.dateOfWeek }}</td>
+                                <td>{{ exam.creditClass }}</td>
+                                <td>{{ exam.course }}</td>
+                                <td class="hidden">Sửa,lưu</td>
+                            </tr>
+                        </ng-container>
+
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
