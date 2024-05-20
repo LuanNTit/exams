@@ -1,6 +1,6 @@
 import { Component, inject, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
-import { Exam } from '../exam';
-import { ExamService } from '../exam.service';
+import { Exam } from '../../models/exam';
+import { ExamService } from '../../services/exam.service';
 import { CommonModule } from '@angular/common';
 import { NgxPrintModule } from 'ngx-print';
 import * as XLSX from 'xlsx';

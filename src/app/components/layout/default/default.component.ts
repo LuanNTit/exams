@@ -9,5 +9,5 @@ import { RouterModule } from '@angular/router';
   styleUrl: './default.component.scss'
 })
 export class DefaultComponent {
-
+  title = "default"
 }

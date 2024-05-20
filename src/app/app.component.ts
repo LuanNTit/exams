@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ExamComponent } from './exam/exam.component';
 import { RouterModule } from '@angular/router';
 
 @Component({
