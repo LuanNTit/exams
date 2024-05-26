@@ -2,6 +2,7 @@
 body {
     margin: 0;
     padding: 0;
+    border: 1px solid black;
 }
 
 .row {
@@ -18,4 +19,9 @@ body {
 
 .hidden {
     display: none;
+}
+
+.section {
+    background-image: url('./assets/school.jpg');
+    height: 100vh;
 }

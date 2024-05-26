@@ -1,2 +1,12 @@
-{{title}}
-<router-outlet></router-outlet>
+<div class="container" *ngIf="showAdminBoard">
+  <app-admin-layout (someEvent)="logout()" [showAdminBoard]="showAdminBoard"></app-admin-layout>
+</div>
+<div class="container" *ngIf="showLecturerBoard">
+  <app-lecturer-layout (someEvent)="logout()" [showLecturerBoard]="showLecturerBoard"></app-lecturer-layout>
+</div>
+<div class="container" *ngIf="showStudentBoard">
+  <app-student-layout (someEvent)="logout()" [showStudentBoard]="showStudentBoard"></app-student-layout>
+</div>
+<div class="container" *ngIf="!isLoggedIn">
+  <app-default (someEvent)="logout()"></app-default>
+</div>

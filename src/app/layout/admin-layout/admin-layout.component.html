@@ -1,0 +1,12 @@
+<div>
+    <!-- <br><br><br><br> -->
+    <img src="../../../assets/logoQuyNhon.png" />
+</div>
+<nav class="navbar">
+    <a [routerLink]="['/']">Trang chủ</a>
+    <a [routerLink]="['/feature']">Chức năng</a>
+    <a [routerLink]="['/setting']">Cài đặt</a>
+    <a [routerLink]="['/profile']" *ngIf="showAdminBoard">Admin</a>
+    <a (click)="callLogoutParent()">Đăng xuất</a>
+</nav>
+<router-outlet></router-outlet>

@@ -1,0 +1,24 @@
+<div class="navigation">
+    <nav class="navbar">
+        <div class="container">
+          <div class="navbar-nav">
+            <a [routerLink]="['/']" class="nav-link">Giới thiệu</a>
+            <a [routerLink]="['/login']" class="nav-link" *ngIf="!showLecturerBoard">Đăng nhập</a>
+            <a [routerLink]="['/profile']" class="nav-link" *ngIf="showLecturerBoard">Xem lịch thi</a>
+            <a [routerLink]="['/profile']" class="nav-link" *ngIf="showLecturerBoard">Giảng viên</a>
+            <a class="nav-link" (click)="callLogoutParent()" *ngIf="showLecturerBoard">Đăng xuất</a>
+          </div>
+        </div>
+      </nav>
+  </div>
+  <div class="section">
+    <router-outlet></router-outlet>
+  </div>
+  <div class="footer">
+    <div class="footer_top">
+        <hr />
+    </div>
+    <div class="container">
+        <span class="text-muted">© 2024 My Website. All rights reserved.</span>
+    </div>
+</div>
